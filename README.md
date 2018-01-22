@@ -12,10 +12,13 @@ Sitecore Support: "Creation of custom segments is not supported by the Experienc
 Changelog
 =========
 
-Varsion 1.8.2 - https://github.com/iamandycohen/UrlRewrite/releases/tag/v1.8.2
+Version 1.8.3 - https://github.com/martin-ca/UrlRewrite/releases/tag/v1.8.3
+* Added support for setting redirect type to Simple Redirect.
+
+Version 1.8.2 - https://github.com/iamandycohen/UrlRewrite/releases/tag/v1.8.2
 * Added support for Sitecore 8.2
 
-Varsion 1.8.1.3 - https://github.com/iamandycohen/UrlRewrite/releases/tag/v1.8.1.3
+Version 1.8.1.3 - https://github.com/iamandycohen/UrlRewrite/releases/tag/v1.8.1.3
 * Added support for Sitecore 8.1 Update 2 & Update 3
 * Fixed sort order thanks to Dan Sinclair
 * Fixed RulesEngine.GetRedirectFolderItems so that it only returns Redirect Folder templates
