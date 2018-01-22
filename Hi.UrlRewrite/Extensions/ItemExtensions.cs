@@ -131,6 +131,54 @@ namespace Hi.UrlRewrite
             outboundRule.Precondition = precondition;
         }
 
+        public static InboundRule ToInboundRule(this SimpleRedirectItem simpleRedirectItem, string siteNameRestriction)
+        {
+            var inboundRulePattern = string.Format("^{0}/?$", simpleRedirectItem.Path.Value);
+
+            var redirectTo = simpleRedirectItem.Target;
+            string actionRewriteUrl;
+            Guid? redirectItem;
+            string redirectItemAnchor;
+
+            RulesEngine.GetRedirectUrlOrItemId(redirectTo, out actionRewriteUrl, out redirectItem, out redirectItemAnchor);
+
+            Log.Debug(logObject, simpleRedirectItem.Database, "Creating Inbound Rule From Simple Redirect Item - {0} - id: {1} actionRewriteUrl: {2} redirectItem: {3}", simpleRedirectItem.Name, simpleRedirectItem.ID.Guid, actionRewriteUrl, redirectItem);
+
+            var redirectAction = new Redirect
+            {
+                AppendQueryString = true,
+                Name = "Redirect",
+                StatusCode = RedirectStatusCode.Permanent,
+                RewriteUrl = actionRewriteUrl,
+                RewriteItemId = redirectItem,
+                RewriteItemAnchor = redirectItemAnchor,
+                StopProcessingOfSubsequentRules = false,
+                HttpCacheability = HttpCacheability.NoCache
+            };
+
+            if (simpleRedirectItem.BaseRedirectTypeItem != null)
+            {
+                GetStatusCode(simpleRedirectItem.BaseRedirectTypeItem, redirectAction);
+            }
+
+            var inboundRule = new InboundRule
+            {
+                Action = redirectAction,
+                SiteNameRestriction = siteNameRestriction,
+                Enabled = simpleRedirectItem.BaseEnabledItem.Enabled.Checked,
+                IgnoreCase = true,
+                ItemId = simpleRedirectItem.ID.Guid,
+                ConditionLogicalGrouping = LogicalGrouping.MatchAll,
+                Name = simpleRedirectItem.Name,
+                Pattern = inboundRulePattern,
+                MatchType = MatchType.MatchesThePattern,
+                Using = Using.RegularExpressions,
+                SortOrder = simpleRedirectItem.SortOrder
+            };
+
+            return inboundRule;
+        }
+
         public static InboundRule ToInboundRule(this InboundRuleItem inboundRuleItem, string siteNameRestriction)
         {
 

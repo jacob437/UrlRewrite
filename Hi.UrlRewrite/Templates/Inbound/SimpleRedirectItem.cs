@@ -1,3 +1,4 @@
+using Hi.UrlRewrite.Templates.Action.Base;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 
@@ -16,6 +17,9 @@ namespace Hi.UrlRewrite.Templates.Inbound
         private readonly BaseEnabledItem _BaseEnabledItem;
         public BaseEnabledItem BaseEnabledItem { get { return _BaseEnabledItem; } }
 
+        private readonly BaseRedirectTypeItem _BaseRedirectTypeItem;
+        public BaseRedirectTypeItem BaseRedirectTypeItem { get { return _BaseRedirectTypeItem; } }
+
         #endregion
 
         #region Boilerplate CustomItem Code
@@ -25,6 +29,7 @@ namespace Hi.UrlRewrite.Templates.Inbound
         {
             _BaseUrlRewriteItem = new BaseUrlRewriteItem(innerItem);
             _BaseEnabledItem = new BaseEnabledItem(innerItem);
+            _BaseRedirectTypeItem = new BaseRedirectTypeItem(innerItem);
         }
 
         public static implicit operator SimpleRedirectItem(Item innerItem)
