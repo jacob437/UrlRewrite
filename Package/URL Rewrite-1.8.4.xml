@@ -3,7 +3,7 @@
     <metadata>
       <PackageName>URL Rewrite</PackageName>
       <Author>Martin Caspersen</Author>
-      <Version>1.8.3</Version>
+      <Version>1.8.4</Version>
       <Revision />
       <License />
       <Comment />
@@ -18,6 +18,14 @@ In addition to adding Site specific redirect capabilities, I have modeled the da
 
 Changelog
 =========
+
+Version 1.8.4 -
+https://github.com/martin-ca/UrlRewrite/releases/tag/v1.8.4
+* Module now readds language prefix to path so it can be used in redirects.
+* Target language of internal links should be set to specify which language of the item to use.
+* Refactored SimpleRedirectItem to reuse more existing logic.
+* Added config file to enable processing of htm files to be able to redirect url that ends on htm.
+
 
 Version 1.8.3 -
 https://github.com/martin-ca/UrlRewrite/releases/tag/v1.8.3
@@ -323,7 +331,16 @@ Version 1.0
       <SkipVersions>False</SkipVersions>
       <Converter>
         <ItemToEntryConverter>
-          <Transforms />
+          <Transforms>
+            <InstallerConfigurationTransform>
+              <Options>
+                <BehaviourOptions>
+                  <ItemMode>Undefined</ItemMode>
+                  <ItemMergeMode>Undefined</ItemMergeMode>
+                </BehaviourOptions>
+              </Options>
+            </InstallerConfigurationTransform>
+          </Transforms>
         </ItemToEntryConverter>
       </Converter>
       <Include>
@@ -371,7 +388,16 @@ Version 1.0
       <SkipVersions>False</SkipVersions>
       <Converter>
         <ItemToEntryConverter>
-          <Transforms />
+          <Transforms>
+            <InstallerConfigurationTransform>
+              <Options>
+                <BehaviourOptions>
+                  <ItemMode>Undefined</ItemMode>
+                  <ItemMergeMode>Undefined</ItemMergeMode>
+                </BehaviourOptions>
+              </Options>
+            </InstallerConfigurationTransform>
+          </Transforms>
         </ItemToEntryConverter>
       </Converter>
       <Include>
@@ -419,7 +445,16 @@ Version 1.0
       <SkipVersions>False</SkipVersions>
       <Converter>
         <ItemToEntryConverter>
-          <Transforms />
+          <Transforms>
+            <InstallerConfigurationTransform>
+              <Options>
+                <BehaviourOptions>
+                  <ItemMode>Undefined</ItemMode>
+                  <ItemMergeMode>Undefined</ItemMergeMode>
+                </BehaviourOptions>
+              </Options>
+            </InstallerConfigurationTransform>
+          </Transforms>
         </ItemToEntryConverter>
       </Converter>
       <Include>
@@ -691,63 +726,6 @@ Version 1.0
     </items>
     <items>
       <Database>master</Database>
-      <Root>{30D1BA49-44F5-4A99-8B3A-9815F41A31AA}</Root>
-      <SkipVersions>False</SkipVersions>
-      <Converter>
-        <ItemToEntryConverter>
-          <Transforms>
-            <InstallerConfigurationTransform>
-              <Options>
-                <BehaviourOptions>
-                  <ItemMode>Undefined</ItemMode>
-                  <ItemMergeMode>Undefined</ItemMergeMode>
-                </BehaviourOptions>
-              </Options>
-            </InstallerConfigurationTransform>
-          </Transforms>
-        </ItemToEntryConverter>
-      </Converter>
-      <Include>
-        <ItemNameFilter>
-          <Pattern />
-          <FilterSearchType>Simple</FilterSearchType>
-        </ItemNameFilter>
-        <ItemDateFilter>
-          <FilterType>CreatedFilter</FilterType>
-          <NotOlderThan />
-          <ActionDateTo />
-          <ActionDateFrom />
-        </ItemDateFilter>
-        <ItemDateFilter>
-          <FilterType>ModifiedFilter</FilterType>
-          <NotOlderThan />
-          <ActionDateTo />
-          <ActionDateFrom />
-        </ItemDateFilter>
-        <ItemPublishFilter>
-          <PublishDate />
-          <CheckWorkflow>True</CheckWorkflow>
-        </ItemPublishFilter>
-        <ItemTemplateFilter>
-          <Templates />
-        </ItemTemplateFilter>
-        <ItemUserFilter>
-          <FilterType>Created</FilterType>
-          <Accounts />
-        </ItemUserFilter>
-        <ItemUserFilter>
-          <FilterType>Modified</FilterType>
-          <Accounts />
-        </ItemUserFilter>
-        <ItemLanguageFilter>
-          <Languages />
-        </ItemLanguageFilter>
-      </Include>
-      <Exclude />
-      <Name>master workflow</Name>
-    </items>
-    <items>
-      <Database>master</Database>
       <Root>{1D668F23-EEBA-4BD3-93B3-94861ED42060}</Root>
       <SkipVersions>False</SkipVersions>
       <Converter>
@@ -859,63 +837,6 @@ Version 1.0
       </Include>
       <Exclude />
       <Name>core analytics reports</Name>
-    </items>
-    <items>
-      <Database>master</Database>
-      <Root>{0DA6100D-E4FB-4ADD-AD4C-373F410A1952}</Root>
-      <SkipVersions>False</SkipVersions>
-      <Converter>
-        <ItemToEntryConverter>
-          <Transforms>
-            <InstallerConfigurationTransform>
-              <Options>
-                <BehaviourOptions>
-                  <ItemMode>Undefined</ItemMode>
-                  <ItemMergeMode>Undefined</ItemMergeMode>
-                </BehaviourOptions>
-              </Options>
-            </InstallerConfigurationTransform>
-          </Transforms>
-        </ItemToEntryConverter>
-      </Converter>
-      <Include>
-        <ItemNameFilter>
-          <Pattern />
-          <FilterSearchType>Simple</FilterSearchType>
-        </ItemNameFilter>
-        <ItemDateFilter>
-          <FilterType>CreatedFilter</FilterType>
-          <NotOlderThan />
-          <ActionDateTo />
-          <ActionDateFrom />
-        </ItemDateFilter>
-        <ItemDateFilter>
-          <FilterType>ModifiedFilter</FilterType>
-          <NotOlderThan />
-          <ActionDateTo />
-          <ActionDateFrom />
-        </ItemDateFilter>
-        <ItemPublishFilter>
-          <PublishDate />
-          <CheckWorkflow>True</CheckWorkflow>
-        </ItemPublishFilter>
-        <ItemTemplateFilter>
-          <Templates />
-        </ItemTemplateFilter>
-        <ItemUserFilter>
-          <FilterType>Created</FilterType>
-          <Accounts />
-        </ItemUserFilter>
-        <ItemUserFilter>
-          <FilterType>Modified</FilterType>
-          <Accounts />
-        </ItemUserFilter>
-        <ItemLanguageFilter>
-          <Languages />
-        </ItemLanguageFilter>
-      </Include>
-      <Exclude />
-      <Name>master samples</Name>
     </items>
     <items>
       <Database>master</Database>

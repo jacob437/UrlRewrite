@@ -12,6 +12,12 @@ Sitecore Support: "Creation of custom segments is not supported by the Experienc
 Changelog
 =========
 
+Version 1.8.4 - https://github.com/martin-ca/UrlRewrite/releases/tag/v1.8.4
+* Module now readds language prefix to path so it can be used in redirects.
+* Target language of internal links should be set to specify which language of the item to use.
+* Refactored SimpleRedirectItem to reuse more existing logic.
+* Added config file to enable processing of htm files to be able to redirect url that ends on htm.
+
 Version 1.8.3 - https://github.com/martin-ca/UrlRewrite/releases/tag/v1.8.3
 * Added support for setting redirect type to Simple Redirect.
 
