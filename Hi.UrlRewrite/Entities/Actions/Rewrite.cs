@@ -15,5 +15,6 @@ namespace Hi.UrlRewrite.Entities.Actions
         public string RewriteUrl { get; set; }
         public Guid? RewriteItemId { get; set; }
         public string RewriteItemAnchor { get; set; }
+        public Guid? TargetLanguageId { get; set; }
     }
 }

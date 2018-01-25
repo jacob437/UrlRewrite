@@ -21,6 +21,7 @@ using Hi.UrlRewrite.Templates.ServerVariables;
 using Sitecore;
 using Sitecore.Data;
 using Sitecore.Data.Items;
+using System.Text.RegularExpressions;
 
 namespace Hi.UrlRewrite
 {
@@ -133,28 +134,22 @@ namespace Hi.UrlRewrite
 
         public static InboundRule ToInboundRule(this SimpleRedirectItem simpleRedirectItem, string siteNameRestriction)
         {
-            var inboundRulePattern = string.Format("^{0}/?$", simpleRedirectItem.Path.Value);
+            var escapedPath = Regex.Escape(simpleRedirectItem.Path.Value).Replace("/", @"\/");
 
-            var redirectTo = simpleRedirectItem.Target;
-            string actionRewriteUrl;
-            Guid? redirectItem;
-            string redirectItemAnchor;
-
-            RulesEngine.GetRedirectUrlOrItemId(redirectTo, out actionRewriteUrl, out redirectItem, out redirectItemAnchor);
-
-            Log.Debug(logObject, simpleRedirectItem.Database, "Creating Inbound Rule From Simple Redirect Item - {0} - id: {1} actionRewriteUrl: {2} redirectItem: {3}", simpleRedirectItem.Name, simpleRedirectItem.ID.Guid, actionRewriteUrl, redirectItem);
+            var inboundRulePattern = string.Format("^{0}/?$", escapedPath);
 
             var redirectAction = new Redirect
             {
                 AppendQueryString = true,
                 Name = "Redirect",
                 StatusCode = RedirectStatusCode.Permanent,
-                RewriteUrl = actionRewriteUrl,
-                RewriteItemId = redirectItem,
-                RewriteItemAnchor = redirectItemAnchor,
                 StopProcessingOfSubsequentRules = false,
                 HttpCacheability = HttpCacheability.NoCache
             };
+
+            GetBaseRewriteUrlItem(simpleRedirectItem.BaseRewriteUrlItem, redirectAction);
+
+            Log.Debug(logObject, simpleRedirectItem.Database, "Creating Inbound Rule From Simple Redirect Item - {0} - id: {1} actionRewriteUrl: {2} redirectItem: {3}", simpleRedirectItem.Name, simpleRedirectItem.ID.Guid, redirectAction.RewriteUrl, redirectAction.RewriteItemId);
 
             if (simpleRedirectItem.BaseRedirectTypeItem != null)
             {
@@ -840,6 +835,11 @@ namespace Hi.UrlRewrite
             redirectAction.RewriteItemId = redirectItemId;
             redirectAction.RewriteItemAnchor = redirectItemAnchor;
             redirectAction.RewriteUrl = actionRewriteUrl;
+
+            if (baseRewriteUrlItem.TargetLanguage != null)
+            {
+                redirectAction.TargetLanguageId = baseRewriteUrlItem.TargetLanguage.TargetID.Guid;
+            }
         }
 
         private static void GetBaseAppendQueryStringItem(BaseAppendQuerystringItem baseAppendQueryString, IBaseAppendQueryString redirectAction)

@@ -5,6 +5,7 @@ using Hi.UrlRewrite.Entities.Match;
 using Hi.UrlRewrite.Entities.Rules;
 using Hi.UrlRewrite.Processing.Results;
 using Sitecore.Data;
+using Sitecore.Data.Managers;
 using Sitecore.Links;
 using Sitecore.Resources.Media;
 using Sitecore.Sites;
@@ -207,10 +208,10 @@ namespace Hi.UrlRewrite.Processing
                     ruleResult = ProcessRegularExpressionInboundRule(ruleResult.OriginalUri, inboundRule);
 
                     break;
-                //case Using.Wildcards:
-                //    //TODO: Implement Wildcards
-                //    throw new NotImplementedException("Using Wildcards has not been implemented");
-                //    break;
+                    //case Using.Wildcards:
+                    //    //TODO: Implement Wildcards
+                    //    throw new NotImplementedException("Using Wildcards has not been implemented");
+                    //    break;
             }
 
             Log.Debug(this, "Processing inbound rule - requestUri: {0} inboundRule: {1} rewrittenUrl: {2}", ruleResult.OriginalUri, inboundRule.Name, ruleResult.RewrittenUri);
@@ -398,7 +399,7 @@ namespace Hi.UrlRewrite.Processing
 
             if (rewriteItemId.HasValue)
             {
-                rewriteUrl = GetRewriteUrlFromItemId(rewriteItemId.Value, rewriteItemAnchor);
+                rewriteUrl = GetRewriteUrlFromItemId(rewriteItemId.Value, redirectAction.TargetLanguageId, rewriteItemAnchor);
             }
 
 
@@ -439,7 +440,7 @@ namespace Hi.UrlRewrite.Processing
 
             if (rewriteItemId.HasValue)
             {
-                rewriteUrl = GetRewriteUrlFromItemId(rewriteItemId.Value, rewriteItemAnchor);
+                rewriteUrl = GetRewriteUrlFromItemId(rewriteItemId.Value, redirectAction.TargetLanguageId, rewriteItemAnchor);
             }
 
             // process token replacements
@@ -487,7 +488,7 @@ namespace Hi.UrlRewrite.Processing
                 return;
             }
 
-            string rewriteUrl = GetRewriteUrlFromItemId(rewriteItemId.Value, null);
+            string rewriteUrl = GetRewriteUrlFromItemId(rewriteItemId.Value, null, null);
 
 
             // process token replacements
@@ -517,7 +518,7 @@ namespace Hi.UrlRewrite.Processing
             return null;
         }
 
-        private string GetRewriteUrlFromItemId(Guid rewriteItemId, string rewriteItemAnchor)
+        private string GetRewriteUrlFromItemId(Guid rewriteItemId, Guid? targetLanguage, string rewriteItemAnchor)
         {
             string rewriteUrl = null;
 
@@ -528,6 +529,17 @@ namespace Hi.UrlRewrite.Processing
 
                 if (rewriteItem != null)
                 {
+                    if (targetLanguage.HasValue)
+                    {
+                        var language = rewriteItem.Languages.Where(l => LanguageManager.GetLanguageItemId(l, Sitecore.Context.Database).Guid == targetLanguage.Value).FirstOrDefault();
+
+                        if (language != null)
+                        {
+                            Sitecore.Context.Language = language;
+                            rewriteItem = db.GetItem(rewriteItem.ID, language);
+                        }
+                    }
+
                     if (rewriteItem.Paths.IsMediaItem)
                     {
                         var mediaUrlOptions = new MediaUrlOptions
@@ -555,8 +567,6 @@ namespace Hi.UrlRewrite.Processing
 
             return rewriteUrl;
         }
-
-
 
     }
 }

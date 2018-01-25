@@ -20,6 +20,9 @@ namespace Hi.UrlRewrite.Templates.Inbound
         private readonly BaseRedirectTypeItem _BaseRedirectTypeItem;
         public BaseRedirectTypeItem BaseRedirectTypeItem { get { return _BaseRedirectTypeItem; } }
 
+        private readonly BaseRewriteUrlItem _BaseRewriteUrlItem;
+        public BaseRewriteUrlItem BaseRewriteUrlItem { get { return _BaseRewriteUrlItem; } }
+
         #endregion
 
         #region Boilerplate CustomItem Code
@@ -30,6 +33,7 @@ namespace Hi.UrlRewrite.Templates.Inbound
             _BaseUrlRewriteItem = new BaseUrlRewriteItem(innerItem);
             _BaseEnabledItem = new BaseEnabledItem(innerItem);
             _BaseRedirectTypeItem = new BaseRedirectTypeItem(innerItem);
+            _BaseRewriteUrlItem = new BaseRewriteUrlItem(innerItem);
         }
 
         public static implicit operator SimpleRedirectItem(Item innerItem)
@@ -53,15 +57,6 @@ namespace Hi.UrlRewrite.Templates.Inbound
             get
             {
                 return new TextField(InnerItem.Fields["Path"]);
-            }
-        }
-
-
-        public LinkField Target
-        {
-            get
-            {
-                return new LinkField(InnerItem.Fields["Target"]);
             }
         }
 

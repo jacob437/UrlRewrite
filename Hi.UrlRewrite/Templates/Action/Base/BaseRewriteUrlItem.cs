@@ -46,6 +46,14 @@ namespace Hi.UrlRewrite.Templates.Action.Base
             }
         }
 
+        public ReferenceField TargetLanguage
+        {
+            get
+            {
+                return new ReferenceField(InnerItem.Fields["Target Language"]);
+            }
+        }
+
 
         #endregion //Field Instance Methods
     }

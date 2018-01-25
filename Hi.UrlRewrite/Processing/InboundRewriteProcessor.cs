@@ -25,7 +25,20 @@ namespace Hi.UrlRewrite.Processing
                 if (args.Context == null || db == null) return;
 
                 var httpContext = new HttpContextWrapper(args.Context);
-                var requestUri = httpContext.Request.Url;
+                var uriBuilder = new UriBuilder(httpContext.Request.Url);
+
+                bool? alreadyRun = httpContext.Items["urlrewrite:alreadyrun"] as bool?;
+
+                if (!(alreadyRun.HasValue && alreadyRun.Value))
+                {
+                    if (Sitecore.Context.Data.FilePathLanguage != null)
+                    {
+                        uriBuilder.Path = "/" + Sitecore.Context.Data.FilePathLanguage.Name.ToLower() + uriBuilder.Path;
+                    }
+                    httpContext.Items["urlrewrite:alreadyrun"] = true as bool?;
+                }
+
+                var requestUri = uriBuilder.Uri;
 
                 if (requestUri == null || Configuration.IgnoreUrlPrefixes.Length > 0 && Configuration.IgnoreUrlPrefixes.Any(prefix => requestUri.PathAndQuery.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase)))
                 {

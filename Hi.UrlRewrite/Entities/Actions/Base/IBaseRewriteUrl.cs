@@ -7,5 +7,6 @@ namespace Hi.UrlRewrite.Entities.Actions.Base
         string RewriteUrl { get; set; }
         Guid? RewriteItemId { get; set; }
         string RewriteItemAnchor { get; set; }
+        Guid? TargetLanguageId { get; set; }
     }
 }
