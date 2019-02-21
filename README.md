@@ -12,6 +12,9 @@ Sitecore Support: "Creation of custom segments is not supported by the Experienc
 Changelog
 =========
 
+Version 1.9
+* Added support for Sitecore 9
+
 Version 1.8.4 - https://github.com/martin-ca/UrlRewrite/releases/tag/v1.8.4
 * Module now readds language prefix to path so it can be used in redirects.
 * Target language of internal links should be set to specify which language of the item to use.

@@ -162,3 +162,5 @@ $RECYCLE.BIN/
 ../Assemblies/
 Assemblies/
 /packages
+
+.vs/
